@@ -1,0 +1,18 @@
+  spring:
+    jpa:
+      hibernate:
+        ddl-auto: create-drop
+        show-sql: true
+        properties:
+          hibernate:
+            format_sql: true
+
+    datasource:
+      driver-class-name: org.postgresql.Driver
+      url: ${url}
+      username: ${username}
+      password: ${password}
+    application:
+      name: DataJpa
+  server:
+    port: 8088
