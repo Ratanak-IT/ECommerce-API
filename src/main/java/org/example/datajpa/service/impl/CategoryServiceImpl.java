@@ -85,7 +85,7 @@ public class CategoryServiceImpl implements CategoryService {
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
 
         category.setIsDelete(true);
-        categoryRepository.deleteById(id);
+        categoryRepository.save(category);
     }
 
     @Override

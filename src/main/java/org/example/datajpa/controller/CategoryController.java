@@ -31,12 +31,14 @@ public class CategoryController {
         return categoryService.getAllCategories(page, size);
     }
 
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public CategoryResponse getCategoryById(@PathVariable Integer id) {
         return categoryService.getCategoryById(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}/subcategories")
     public  Page<CategoryResponse> getSubCategoriesByMainId(
             @RequestParam Integer parentId,
@@ -46,17 +48,20 @@ public class CategoryController {
         return categoryService.getSubCategoriesByMainId(parentId, page, size);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/{id}")
     public void softDeleteCategory(@PathVariable Integer id) {
         categoryService.softDeleteCategory(id);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void hardDeleteCategory(@PathVariable Integer id) {
         categoryService.hardDeleteCategory(id);
     }
 
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
     public CategoryResponse updateCategoryById(@PathVariable Integer id, @RequestBody CategoryRequest categoryRequest) {
         return categoryService.updateCategoryById(id, categoryRequest);
