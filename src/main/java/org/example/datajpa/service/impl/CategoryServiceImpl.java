@@ -55,8 +55,33 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponse updateCategoryById(Integer id, CategoryRequest categoryRequest) {
+
+        if (id == null || id <= 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Invalid category id"
+            );
+        }
+
         Category category = categoryRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
+
+        // can't update if category delete true
+        if (Boolean.TRUE.equals(category.getIsDelete())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Cannot update category"
+            );
+        }
+
+        if (categoryRepository.existsByName(categoryRequest.name())
+                && !category.getName().equals(categoryRequest.name())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Category name already exists"
+            );
+        }
+
         category.setName(categoryRequest.name());
         category.setDescription(categoryRequest.description());
         category.setIcon(categoryRequest.icon());
@@ -85,14 +110,21 @@ public class CategoryServiceImpl implements CategoryService {
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
 
         category.setIsDelete(true);
+        List<Category> subCategories = categoryRepository.findAllByParentCategoryId(id);
+        subCategories.forEach(subCategory -> subCategory.setIsDelete(true));
+
         categoryRepository.save(category);
+        categoryRepository.saveAll(subCategories);
     }
 
     @Override
     public void hardDeleteCategory(Integer id) {
-        if (!categoryRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found");
-        }
+        Category category = categoryRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Category not found"));
+
+        List<Category> subCategories= categoryRepository.findAllByParentCategoryId(id);
+        categoryRepository.deleteAll(subCategories);
         categoryRepository.deleteById(id);
     }
 
