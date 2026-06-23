@@ -9,6 +9,7 @@ import org.example.datajpa.features.category.Category;
 import org.example.datajpa.features.orderLine.OrderLine;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,7 +42,7 @@ public class Product {
   private String thumbnail;
 
   @Column(nullable = false)
-  private Double unitPrice;
+  private BigDecimal unitPrice;
 
   @Column(nullable = false)
   private Integer qty;

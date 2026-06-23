@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.example.datajpa.features.product.dto.ProductRequest;
+import org.example.datajpa.features.product.dto.UpdateProductRequest;
 import org.example.datajpa.specification.dto.RequestDto;
 import org.example.datajpa.features.product.dto.ProductResponse;
 import org.springframework.data.domain.Page;
@@ -37,8 +38,8 @@ public class ProductController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PatchMapping
-    public ProductResponse updateProduct(@RequestParam Integer id, @Valid @RequestBody ProductRequest productRequest) {
+    @PatchMapping("/{id}")
+    public ProductResponse updateProduct(@PathVariable Integer id, @Valid @RequestBody UpdateProductRequest productRequest) {
         return productService.updateProduct(id, productRequest);
     }
 
@@ -49,7 +50,7 @@ public class ProductController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/{id}")
+    @PatchMapping("/delete/{id}")
     public void softDeleteProduct(@PathVariable Integer id) {
         productService.softDeleteProduct(id);
     }

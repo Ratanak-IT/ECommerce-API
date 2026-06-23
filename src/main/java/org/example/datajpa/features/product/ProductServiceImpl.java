@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.datajpa.features.category.Category;
 import org.example.datajpa.features.category.CategoryRepository;
 import org.example.datajpa.features.product.dto.ProductRequest;
+import org.example.datajpa.features.product.dto.UpdateProductRequest;
 import org.example.datajpa.features.util.GenerateUtil;
 import org.example.datajpa.specification.dto.RequestDto;
 import org.example.datajpa.features.product.dto.ProductResponse;
@@ -63,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse updateProduct(Integer id, ProductRequest productRequest) {
+    public ProductResponse updateProduct(Integer id, UpdateProductRequest productRequest) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 
@@ -77,11 +78,12 @@ public class ProductServiceImpl implements ProductService {
         product.setName(productRequest.name());
         product.setDescription(productRequest.description());
         product.setThumbnail(productRequest.thumbnail());
-        product.setUnitPrice(product.getUnitPrice());
-        product.setQty(product.getQty());
-        product.setIsAvailable(product.getIsAvailable());
+        product.setUnitPrice(productRequest.unitPrice());
+        product.setQty(productRequest.qty());
+        product.setIsAvailable(productRequest.isAvailable());
+        Product savedProduct = productRepository.save(product);
 
-        return productMapper.toProductResponse(productRepository.save(product));
+        return productMapper.toProductResponse(savedProduct);
 
     }
 
