@@ -1,4 +1,4 @@
-package org.example.datajpa.domain;
+package org.example.datajpa.features.order;
 
 
 import jakarta.persistence.*;
@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.datajpa.features.orderLine.OrderLine;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,7 +42,5 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderLine> orderLines;
 
-    @OneToMany(mappedBy = "order")
-    private List<Payment> payment;
 
 }

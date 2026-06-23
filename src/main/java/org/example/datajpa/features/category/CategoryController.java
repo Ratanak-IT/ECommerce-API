@@ -1,13 +1,13 @@
-package org.example.datajpa.controller;
+package org.example.datajpa.features.category;
 
 
 import lombok.RequiredArgsConstructor;
-import org.example.datajpa.dto.CategoryRequest;
-import org.example.datajpa.dto.CategoryResponse;
-import org.example.datajpa.service.CategoryService;
+import org.example.datajpa.specification.dto.RequestDto;
+import org.example.datajpa.features.category.dto.CategoryRequest;
+import org.example.datajpa.features.category.dto.CategoryResponse;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,6 +23,11 @@ public class CategoryController {
         return categoryService.createCategory(categoryRequest);
     }
 
+    @PostMapping("/search")
+    public Page<CategoryResponse> searchByCriteria(@RequestBody RequestDto requestDto, Pageable pageable) {
+        return categoryService.searchByCriteria(requestDto, pageable);
+    }
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public Page<CategoryResponse> getAllCategories(
@@ -30,6 +35,7 @@ public class CategoryController {
             @RequestParam(defaultValue = "25") int size) {
         return categoryService.getAllCategories(page, size);
     }
+
 
 
     @ResponseStatus(HttpStatus.OK)
@@ -66,6 +72,5 @@ public class CategoryController {
     public CategoryResponse updateCategoryById(@PathVariable Integer id, @RequestBody CategoryRequest categoryRequest) {
         return categoryService.updateCategoryById(id, categoryRequest);
     }
-
 
 }

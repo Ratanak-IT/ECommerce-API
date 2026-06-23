@@ -1,4 +1,4 @@
-package org.example.datajpa.domain;
+package org.example.datajpa.features.orderLine;
 
 
 import jakarta.persistence.*;
@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.datajpa.features.product.Product;
+import org.example.datajpa.features.order.Order;
 
 @Setter
 @Getter

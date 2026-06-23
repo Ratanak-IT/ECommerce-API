@@ -1,10 +1,7 @@
-package org.example.datajpa.dto;
+package org.example.datajpa.features.category.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Builder;
-import org.example.datajpa.domain.Category;
+import org.example.datajpa.features.category.Category;
 
 @Builder
 public record CategoryResponse(

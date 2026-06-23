@@ -1,16 +1,15 @@
-package org.example.datajpa.service.impl;
+package org.example.datajpa.features.category;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.datajpa.domain.Category;
-import org.example.datajpa.dto.CategoryRequest;
-import org.example.datajpa.dto.CategoryResponse;
-import org.example.datajpa.mapping.CategoryMapper;
-import org.example.datajpa.repository.CategoryRepository;
-import org.example.datajpa.service.CategoryService;
+import org.example.datajpa.specification.dto.RequestDto;
+import org.example.datajpa.features.category.dto.CategoryRequest;
+import org.example.datajpa.features.category.dto.CategoryResponse;
+import org.example.datajpa.specification.FilterSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,6 +23,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
+    private final FilterSpecification<Category> filterSpecification;
+
+
+    @Override
+    public Page<CategoryResponse> searchByCriteria(RequestDto requestDto, Pageable pageable) {
+        Specification<Category> categorySpecification = filterSpecification.getSearchSpecification(requestDto.getSearchRequestDtoList(), requestDto.getGlobalOperation());
+        return categoryRepository.findAll(categorySpecification, pageable)
+                .map(categoryMapper::toCategoryResponse);
+    }
+
 
     @Override
     public CategoryResponse createCategory(CategoryRequest request) {
@@ -87,6 +96,7 @@ public class CategoryServiceImpl implements CategoryService {
         category.setIcon(categoryRequest.icon());
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
+
 
     @Override
     public Page<CategoryResponse> getAllCategories(int page, int size) {

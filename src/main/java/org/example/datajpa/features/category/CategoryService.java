@@ -1,12 +1,15 @@
-package org.example.datajpa.service;
+package org.example.datajpa.features.category;
 
-import org.example.datajpa.dto.CategoryRequest;
-import org.example.datajpa.dto.CategoryResponse;
+import org.example.datajpa.specification.dto.RequestDto;
+import org.example.datajpa.features.category.dto.CategoryRequest;
+import org.example.datajpa.features.category.dto.CategoryResponse;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 public interface CategoryService {
+
+    Page<CategoryResponse> searchByCriteria(RequestDto requestDto, Pageable pageable);
+
 
     CategoryResponse createCategory(CategoryRequest categoryRequest);
 

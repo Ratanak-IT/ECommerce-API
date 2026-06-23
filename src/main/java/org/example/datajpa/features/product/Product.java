@@ -1,12 +1,16 @@
-package org.example.datajpa.domain;
+package org.example.datajpa.features.product;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.datajpa.features.category.Category;
+import org.example.datajpa.features.orderLine.OrderLine;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Setter
@@ -45,7 +49,7 @@ public class Product {
   private Boolean isAvailable;
 
   @Column(nullable = false)
-  private Boolean isDelete;
+  private Boolean isDelete = false;
 
   @ManyToOne
   private Category category;
