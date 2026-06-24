@@ -1,6 +1,13 @@
+  minio:
+    endpoint: http://localhost:9000
+    access-key: admin
+    secret-key: password123
+    bucket: file
+
   file:
     client-path: /file
-    storage-location: C:\Users\User\OneDrive\Pictures\file management
+    storage-location: D:\\uploadFile\\
+    base-uri: http://localhost:${server.port}${file.client-path}
 
   spring:
     jpa:
