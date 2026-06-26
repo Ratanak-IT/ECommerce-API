@@ -1,9 +1,11 @@
 package org.example.datajpa.features.order;
 
+import org.example.datajpa.features.product.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrderRepository extends JpaRepository<Order, Integer> {
+import java.util.Optional;
 
+public interface OrderRepository extends JpaRepository<Order, Integer> {
 
 
 }

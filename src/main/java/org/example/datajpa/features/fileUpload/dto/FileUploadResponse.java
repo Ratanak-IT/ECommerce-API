@@ -8,7 +8,8 @@ public record FileUploadResponse(
         String caption,
         Long size,
         String mimeType,
-        String uri
+        String uri,
+        String extension
 
 ) {
 }

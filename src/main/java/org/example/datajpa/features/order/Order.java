@@ -24,7 +24,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id
     private UUID id;
-
     @Column(nullable = false)
     private String customerId;
     @Column(nullable = false )
@@ -38,8 +37,7 @@ public class Order {
     private LocalDateTime createdAt;
     @Column(nullable = false)
     private Boolean isDelete;
-
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
     private List<OrderLine> orderLines;
 
 
